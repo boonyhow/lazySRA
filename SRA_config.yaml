@@ -1,0 +1,36 @@
+slurm: True
+proxy: 
+  ### NOT RECOMMENDED - proxies can cause downloads to be corrupted, one way to reduce the error rate is decreasing batch size 
+  exists: True
+  proxy_server: http://sotong.private.bii:3128
+
+pheno_file: /home/lowbh-int/ipsc_differentiation/SraRunTable.txt
+log_file: /home/lowbh-int/ipsc_differentiation/STARAlign.log
+fastq_dir: /home/lowbh-int/ipsc_differentiation/fastq
+fastqc_dir: /home/lowbh-int/ipsc_differentiation/fastq/fastqc_files
+counts_dir: /home/lowbh-int/ipsc_differentiation/counts/
+genome_dir: /home/lowbh-int/sra_data_pipeline/data/genome
+bam_dir: /home/lowbh-int/ipsc_differentiation/bam/
+slurm_dir: /home/lowbh-int/ipsc_differentiation/slurm_a/
+tmp_dir: /home/lowbh-int/ipsc_differentiation/tmp_a/
+
+
+### Only need to do genome_indexing if desired genome has not been indexed before
+genome_indexing:
+  initiate: False
+  mem_limit: 16GB
+
+fastq_download:
+  initiate: False
+  batch_size: 10
+
+fastqc:
+  initiate: False
+
+star_alignment:
+  ### Set batch size to 0 if server is able to handle STAR alignment on all files concurrently
+  batch_size: 5
+  initiate: True
+
+counts_generations:
+  initiate: True
