@@ -1,0 +1,23 @@
+slurm: False
+
+pheno_file: /home/lowbh-int/fastq_pipeline/pheno/test_pheno.csv
+log_file: /home/lowbh-int/fastq_pipeline/log/test_unstable_slurm.log
+fastq_dir: /home/lowbh-int/fastq_pipeline/tmp/fastq/
+counts_dir: /home/lowbh-int/fastq_pipeline/counts/
+genome_dir: /home/lowbh-int/fastq_pipeline/tmp/genome/
+bam_dir: /home/lowbh-int/fastq_pipeline/tmp/bam/
+slurm_dir: /home/lowbh-int/fastq_pipeline/tmp/slurm/
+
+
+### Only need to do genome_indexing if desired genome has not been indexed before
+genome_indexing:
+  initiate: False
+  mem_limit: 16GB
+
+paired_reads: True
+fastq_download:
+  initiate: True
+star_alignment:
+  initiate: True
+counts_generations:
+  initiate: True
