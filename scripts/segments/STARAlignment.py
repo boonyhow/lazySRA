@@ -114,6 +114,25 @@ class generate_bam_files:
             logger.info(f'Alignment for {filepaths_string} done.')
             return None
 
+    def star_alignment_singlecell(self, filepaths_string, sra_id, genome_dir, out_path, tmp_dir, logger, slurm=False, slurm_dir=None, dependency=None, read_type='paired'):
+        # STAR command for single-cell RNA-seq alignment
+        star_cmd = (
+            f'STAR --runThreadN 4 --genomeDir {genome_dir} '
+            f'--readFilesIn {filepaths_string} --outSAMtype BAM SortedByCoordinate '
+            f'--quantMode GeneCounts --readFilesCommand gunzip -c --outFileNamePrefix {out_path}{read_type} '
+            f'--outTmpDir {tmp_dir} --soloType CB_UMI_Simple --soloCBwhitelist /path/to/cell_barcode_whitelist.txt '
+            f'--soloUMIlen 12'
+        )
+        
+        if slurm:
+            slurm_script_path = generate_slurm_script(star_cmd, f"star_alignment_scRNA_{sra_id}", 4, slurm_dir, memory="64G", dependency=dependency)
+            job_id = submit_slurm_job(slurm_script_path, logger)
+            logger.info(f'{sra_id} (single-cell) submitted with job ID {job_id}')
+            return job_id
+        else:
+            subprocess.run(star_cmd, shell=True, check=True, executable='/bin/bash')
+            logger.info(f'Single-cell RNA-seq alignment for {filepaths_string} done.')
+            return None
 
 
 if __name__ == '__main__':

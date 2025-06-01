@@ -1,12 +1,18 @@
-slurm: False
+slurm: True
+proxy: 
+  ### NOT RECOMMENDED - proxies can cause downloads to be corrupted, one way to reduce the error rate is decreasing batch size 
+  exists: False
+  proxy_server: http://test.com
 
-pheno_file: /home/lowbh-int/fastq_pipeline/pheno/test_pheno.csv
-log_file: /home/lowbh-int/fastq_pipeline/log/test_unstable_slurm.log
-fastq_dir: /home/lowbh-int/fastq_pipeline/tmp/fastq/
-counts_dir: /home/lowbh-int/fastq_pipeline/counts/
-genome_dir: /home/lowbh-int/fastq_pipeline/tmp/genome/
-bam_dir: /home/lowbh-int/fastq_pipeline/tmp/bam/
-slurm_dir: /home/lowbh-int/fastq_pipeline/tmp/slurm/
+pheno_file: ../SraRunTable.txt
+log_file: ../logs/STARAlign.log
+fastq_dir: ../results/fastq
+fastqc_dir: ../results/fastq/fastqc_files
+counts_dir: ../results/counts/
+genome_dir: ../data/genome
+bam_dir: ../results/bam/
+slurm_dir: ../results/slurm/
+tmp_dir: ../tmp/
 
 
 ### Only need to do genome_indexing if desired genome has not been indexed before
@@ -14,10 +20,17 @@ genome_indexing:
   initiate: False
   mem_limit: 16GB
 
-paired_reads: True
 fastq_download:
-  initiate: True
+  initiate: False
+  batch_size: 10
+
+fastqc:
+  initiate: False
+
 star_alignment:
+  ### Set batch size to 0 if server is able to handle STAR alignment on all files concurrently
+  batch_size: 5
   initiate: True
+
 counts_generations:
   initiate: True

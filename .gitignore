@@ -1,4 +1,5 @@
-data/
+data/transcriptome_10x/
+data/genome/
 logs/
 __pycache__/
 *.pyc
